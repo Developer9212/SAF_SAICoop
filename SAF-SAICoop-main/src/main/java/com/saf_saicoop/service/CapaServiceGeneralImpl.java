@@ -2,6 +2,7 @@ package com.saf_saicoop.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -115,7 +116,7 @@ public class CapaServiceGeneralImpl {
 		DirClienteVO voDirCliente = new DirClienteVO();
 		voDirCliente.setCodEmpresa(tablaEmpresa.getDato1());
 		voDirCliente.setCodCliente(ogsPet);
-		voDirCliente.setCodDireccion("402");
+		voDirCliente.setCodDireccion("1");
 		voDirCliente.setCodPais("00");
 		voDirCliente.setCodProvincia("000");
 		voDirCliente.setCodCanton("00");
@@ -142,6 +143,13 @@ public class CapaServiceGeneralImpl {
 		voIdCliente.setCodTipoId("CURP");
 		voIdCliente.setNumId(persona.getCurp());
 		voIdCliente.setIndPrincipal("S");
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(persona.getFechaingreso()); // Configuramos la fecha que se recibe
+		calendar.add(Calendar.YEAR,10);
+		
+		System.out.println("Fecha vencimiento:"+calendar.getTime());
+		
 		voIdCliente.setFecVencim("2024-12-10T09:00:00.567Z");
 		listaIdClientes.add(voIdCliente);
 		
