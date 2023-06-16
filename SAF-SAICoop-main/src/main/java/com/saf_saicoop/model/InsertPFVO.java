@@ -28,9 +28,9 @@ public class InsertPFVO {
 	private String codMunicipioNac;
 	private String tipPropiedad;
 	private String codSubactiv;
-	private String cantHijos;
-	private String aniosAntigDomicilio;
-	private String mesAntigDomicilio;
+	private Integer cantHijos;
+	private Integer aniosAntigDomicilio;
+	private Integer mesAntigDomicilio;
 	private String codEmpresa;
 	private String codCliente;
 	private String catCliente;

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.saf_saicoop.entity.CatalogoMenu;
+import com.saf_saicoop.entity.Colonia;
 import com.saf_saicoop.entity.Persona;
 import com.saf_saicoop.entity.PersonaPK;
 import com.saf_saicoop.entity.Tabla;
@@ -28,6 +29,8 @@ public class CapaServiceGeneralImpl {
 	private IPersonaService personaService;
 	@Autowired
 	private ICatalogoMenuService menuService;
+	@Autowired
+	private IColoniaService coloniaService;
 	
 	
 	
@@ -67,17 +70,17 @@ public class CapaServiceGeneralImpl {
 		inserta.setSegundoApellido(persona.getApmaterno());
 		
 		CatalogoMenu menu = menuService.buscarPorMenuOpcion("estadocivil",persona.getEstadocivil().intValue());		
-		inserta.setEstCivil(menu.getDescripcion());
+		inserta.setEstCivil(menu.getDescripcion().substring(0,1));
 		menu = menuService.buscarPorMenuOpcion("sexo",persona.getSexo().intValue());
-		inserta.setIndSexo(menu.getDescripcion().substring(0));
+		inserta.setIndSexo(menu.getDescripcion().substring(0,1));
 		inserta.setNacionalidad("1");
 		inserta.setFecNacimiento(herramientasUtil.convertFechaDate(persona.getFechanacimiento()));
 		inserta.setActividadEmpresarial("S");
 		inserta.setCodSubactiv("00000");
-		inserta.setCantHijos("0");
-		inserta.setAniosAntigDomicilio("0");
-		inserta.setMesAntigDomicilio("0");
-		inserta.setNomCliente("");
+		inserta.setCantHijos(0);
+		inserta.setAniosAntigDomicilio(0);
+		inserta.setMesAntigDomicilio(0);
+		inserta.setNomCliente(persona.getNombre());
 		inserta.setFecIngreso(herramientasUtil.convertFechaDate(persona.getFechaingreso()));
 		inserta.setTelPrincipal(persona.getCelular());
 		inserta.setTelSecundario(persona.getTelefono());
@@ -103,6 +106,10 @@ public class CapaServiceGeneralImpl {
 		inserta.setIndConcursoMercantil("N");
 		inserta.setIndOrigenAlta("IM");
 		inserta.setIndClieMyoCredit("N");
+		inserta.setCatCliente("1");
+		inserta.setCodAgencia("001");
+		inserta.setIndPersona("F");
+		
 		
 		List<DirClienteVO> listaDirCliente = new ArrayList<DirClienteVO>();
 		DirClienteVO voDirCliente = new DirClienteVO();
@@ -118,6 +125,10 @@ public class CapaServiceGeneralImpl {
 		voDirCliente.setIndEstado("A");
 		voDirCliente.setDetCalle(persona.getEntrecalles());
 		
+		Colonia colonia = coloniaService.buscarPorId(persona.getIdcolonia());
+		voDirCliente.setCodPostal(String.valueOf(colonia.getCodigopostal()));
+		voDirCliente.setCodDireccion("02");
+		
 		listaDirCliente.add(voDirCliente);
 		inserta.setDirclientes(listaDirCliente);
 		
@@ -126,9 +137,12 @@ public class CapaServiceGeneralImpl {
 		
 		voIdCliente.setCodEmpresa(tablaEmpresa.getDato1());
 		voIdCliente.setCodCliente(ogsPet);
+		
+		
 		voIdCliente.setCodTipoId("CURP");
 		voIdCliente.setNumId(persona.getCurp());
 		voIdCliente.setIndPrincipal("S");
+		voIdCliente.setFecVencim("2024-12-10T09:00:00.567Z");
 		listaIdClientes.add(voIdCliente);
 		
 		inserta.setIdClientes(listaIdClientes);
