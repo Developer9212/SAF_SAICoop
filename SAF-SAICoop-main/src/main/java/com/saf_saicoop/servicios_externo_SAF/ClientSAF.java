@@ -33,6 +33,7 @@ public class ClientSAF {
 	private String path = "https://factorajeactivo.com:8208";
 	private String endPointToken = "/invoice-discount-api/v1/usuariosweb/autenticacion";
 	
+	String token = "";
 	public String token() {
 		String resultado = "";
 		try {
@@ -66,13 +67,30 @@ public class ClientSAF {
 			body = RequestBody.create(mediaType,json.toString());
 			request = new Request.Builder()
 					.url(path+endPointToken)
-					.method("POST", body).addHeader("Content-Type", "application/json").build();
+					.method("POST", body)
+					.addHeader("Content-Type", "application/json")
+					 .addHeader("Authorization", "Bearer" + validarToken())
+					.build();
 			response = client.newCall(request).execute();
 			resultado = response.body().string();
 		} catch (Exception e) {
 		  System.out.println("Error al insertar persona a SAF:"+e.getMessage());
 		}
 		return resultado;
+	}
+	
+	public String validarToken() {
+		String tokenValido = "";
+		try {
+			if(token.equals("")) {
+				tokenValido = token();
+			}else {
+				tokenValido = token;
+			}
+		} catch (Exception e) {
+		  System.out.println("Error al validar token:"+e.getMessage());	
+		}
+		return tokenValido;
 	}
 	
 	

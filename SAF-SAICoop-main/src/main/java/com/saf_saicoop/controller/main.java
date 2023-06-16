@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 public class main {
-	
+	/*
    public static void main(String args[]) {
 	   long expiresIn = 10; // Ejemplo de valor de expires_in en segundos
 
@@ -29,5 +29,5 @@ public class main {
     		   bandera = false;
     	   }
        }
-}
+}*/
 }

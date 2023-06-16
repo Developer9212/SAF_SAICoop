@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.MenuElement;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,8 +72,14 @@ public class CapaServiceGeneralImpl {
 		inserta.setPrimerApellido(persona.getAppaterno());
 		inserta.setSegundoApellido(persona.getApmaterno());
 		
-		CatalogoMenu menu = menuService.buscarPorMenuOpcion("estadocivil",persona.getEstadocivil().intValue());		
-		inserta.setEstCivil(menu.getDescripcion().substring(0,1));
+		CatalogoMenu menu = menuService.buscarPorMenuOpcion("estadocivil",persona.getEstadocivil().intValue());	
+		System.out.println("mainnnnnnnnn:"+menu.getDescripcion().toUpperCase());
+		if(menu.getDescripcion().toUpperCase().contains("U")){
+			System.out.println("Entroooooooooooooooooo");
+		    inserta.setEstCivil("O");
+		}else {
+		    inserta.setEstCivil(menu.getDescripcion().substring(0,1));
+		}
 		menu = menuService.buscarPorMenuOpcion("sexo",persona.getSexo().intValue());
 		inserta.setIndSexo(menu.getDescripcion().substring(0,1));
 		inserta.setNacionalidad("1");
@@ -107,7 +115,11 @@ public class CapaServiceGeneralImpl {
 		inserta.setIndConcursoMercantil("N");
 		inserta.setIndOrigenAlta("IM");
 		inserta.setIndClieMyoCredit("N");
-		inserta.setCatCliente("1");
+		if(persona.getPk().getIdgrupo().intValue() == 10) {
+			inserta.setCatCliente("1");	
+		}else if(persona.getPk().getIdgrupo().intValue() == 31) {
+			inserta.setCatCliente("14");
+		}		
 		inserta.setCodAgencia("001");
 		inserta.setIndPersona("F");
 		
@@ -128,7 +140,7 @@ public class CapaServiceGeneralImpl {
 		
 		Colonia colonia = coloniaService.buscarPorId(persona.getIdcolonia());
 		voDirCliente.setCodPostal(String.valueOf(colonia.getCodigopostal()));
-		voDirCliente.setCodDireccion("02");
+		
 		
 		listaDirCliente.add(voDirCliente);
 		inserta.setDirclientes(listaDirCliente);
