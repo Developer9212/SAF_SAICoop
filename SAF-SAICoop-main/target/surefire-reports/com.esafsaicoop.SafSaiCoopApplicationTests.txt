@@ -1,0 +1,7 @@
+-------------------------------------------------------------------------------
+Test set: com.esafsaicoop.SafSaiCoopApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.158 s <<< FAILURE! - in com.esafsaicoop.SafSaiCoopApplicationTests
+com.esafsaicoop.SafSaiCoopApplicationTests  Time elapsed: 0.157 s  <<< ERROR!
+java.lang.IllegalStateException: Unable to find a @SpringBootConfiguration, you need to use @ContextConfiguration or @SpringBootTest(classes=...) with your test
+
