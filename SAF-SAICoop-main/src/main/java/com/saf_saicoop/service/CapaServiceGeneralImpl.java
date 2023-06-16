@@ -150,7 +150,7 @@ public class CapaServiceGeneralImpl {
 		
 		System.out.println("Fecha vencimiento:"+calendar.getTime());
 		
-		voIdCliente.setFecVencim("2024-12-10T09:00:00.567Z");
+		voIdCliente.setFecVencim(herramientasUtil.convertFechaDate(calendar.getTime())+"T00:00:00.000Z");// "2024-12-10T09:00:00.567Z");
 		listaIdClientes.add(voIdCliente);
 		
 		inserta.setIdClientes(listaIdClientes);
