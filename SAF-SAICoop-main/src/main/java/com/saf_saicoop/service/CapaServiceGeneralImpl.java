@@ -13,17 +13,23 @@ import org.springframework.stereotype.Service;
 
 import com.saf_saicoop.entity.CatalogoMenu;
 import com.saf_saicoop.entity.Colonia;
+import com.saf_saicoop.entity.InsertarPF;
 import com.saf_saicoop.entity.Persona;
 import com.saf_saicoop.entity.PersonaPK;
 import com.saf_saicoop.entity.Tabla;
 import com.saf_saicoop.entity.TablaPK;
+import com.saf_saicoop.model.AsientoContableVO;
 import com.saf_saicoop.model.DirClienteVO;
 import com.saf_saicoop.model.IdClienteVO;
 import com.saf_saicoop.model.InsertPFVO;
 import com.saf_saicoop.model.Ogs;
+import com.saf_saicoop.servicios_externo_SAF.ClientSAF;
 import com.saf_saicoop.util.HerramientasUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class CapaServiceGeneralImpl {
   
 	@Autowired
@@ -34,18 +40,21 @@ public class CapaServiceGeneralImpl {
 	private ICatalogoMenuService menuService;
 	@Autowired
 	private IColoniaService coloniaService;
-	
+	@Autowired
+	private IInsertaPFService insertaPFService;
 	
 	
 	@Autowired
 	private HerramientasUtil herramientasUtil;
 	
+	@Autowired
+	private ClientSAF clientSAF;
 	
 	private String idTabla="saf";
 	
 	private Ogs ogs = new Ogs();
 	
-	public InsertPFVO InsertaPersonaSAF(String ogsPet) {
+	public InsertarPF InsertaPersonaSAF(String ogsPet) {
 		InsertPFVO inserta = new InsertPFVO();
 		
 		//formamos peticion
@@ -73,10 +82,8 @@ public class CapaServiceGeneralImpl {
 		inserta.setSegundoApellido(persona.getApmaterno());
 		
 		CatalogoMenu menu = menuService.buscarPorMenuOpcion("estadocivil",persona.getEstadocivil().intValue());	
-		System.out.println("mainnnnnnnnn:"+menu.getDescripcion().toUpperCase());
 		if(menu.getDescripcion().toUpperCase().contains("U")){
-			System.out.println("Entroooooooooooooooooo");
-		    inserta.setEstCivil("O");
+			inserta.setEstCivil("O");
 		}else {
 		    inserta.setEstCivil(menu.getDescripcion().substring(0,1));
 		}
@@ -168,15 +175,36 @@ public class CapaServiceGeneralImpl {
 		inserta.setIdClientes(listaIdClientes);
 		
 		
+		String res = clientSAF.insertaPeronsaSAF(inserta);
 		
+		InsertarPF personaFisica = null;
+		if(res.toUpperCase().contains(ogsPet)) {
+			personaFisica = new InsertarPF();
+			personaFisica.setPk(pkPersona);
+			personaFisica.setFecha(new Date());
+			personaFisica.setRespuesta_saf(res);
+			insertaPFService.guardar(personaFisica);
+		}else {
+			personaFisica = new InsertarPF();
+			personaFisica.setPk(pkPersona);
+			personaFisica.setFecha(new Date());
+			personaFisica.setRespuesta_saf("Error al registrar persona fisica :"+res);
+			insertaPFService.guardar(personaFisica);
+		}
 		
-		
-		
-		
-		return inserta;
+		return personaFisica;
 		
 	}
 	
-	
+	public List<AsientoContableVO>busquedaAsientosContables(String fechaInicio,String fechaFin){
+		log.info("sisidjasidj");
+		List<AsientoContableVO>listaAsientos = new ArrayList<AsientoContableVO>();
+		try {
+			listaAsientos = clientSAF.asientosContables(fechaInicio, fechaFin);			
+		} catch (Exception e) {
+			log.info("Error al buscar asientos contables:"+e.getMessage());
+		}
+		return listaAsientos;
+	}
 	
 }
