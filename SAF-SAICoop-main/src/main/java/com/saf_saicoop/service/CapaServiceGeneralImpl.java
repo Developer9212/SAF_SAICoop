@@ -23,6 +23,7 @@ import com.saf_saicoop.model.DirClienteVO;
 import com.saf_saicoop.model.IdClienteVO;
 import com.saf_saicoop.model.InsertPFVO;
 import com.saf_saicoop.model.Ogs;
+import com.saf_saicoop.model.SaldoVO;
 import com.saf_saicoop.servicios_externo_SAF.ClientSAF;
 import com.saf_saicoop.util.HerramientasUtil;
 
@@ -205,6 +206,16 @@ public class CapaServiceGeneralImpl {
 			log.info("Error al buscar asientos contables:"+e.getMessage());
 		}
 		return listaAsientos;
+	}
+	
+	public List<SaldoVO>cargaSaldos(){
+		List<SaldoVO>lista = new ArrayList<>();
+		try {
+			lista = clientSAF.cargaSaldos();
+		} catch (Exception e) {
+			log.info("Error al obtener lista carga saldos:"+e.getMessage());
+		}
+		return lista;
 	}
 	
 }

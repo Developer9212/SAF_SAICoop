@@ -3,6 +3,7 @@ package com.saf_saicoop.servicios_externo_SAF;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import com.saf_saicoop.entity.Tabla;
 import com.saf_saicoop.entity.TablaPK;
 import com.saf_saicoop.model.AsientoContableVO;
 import com.saf_saicoop.model.InsertPFVO;
+import com.saf_saicoop.model.SaldoVO;
 import com.saf_saicoop.service.ITablaService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,9 +41,9 @@ public class ClientSAF {
 	private String endPointToken = "/invoice-discount-api/v1/usuariosweb/autenticacion";
 	private String endPointInsertPF= "/Client-api/v1/personasfisicas";
 	private String endPointasientosContables= "/Accounting-api/v1/asientoscontables";
+	private String endPointCargaSaldos = "/invoice-discount-api/v1/cargasaldos";
 	Gson gson = new Gson();
 	
-	String token = "";
 	public String token() {
 		String resultado = "";
 		try {
@@ -59,6 +61,8 @@ public class ClientSAF {
 					.method("POST", body).addHeader("Content-Type", "application/json").build();
 			response = client.newCall(request).execute();
 			resultado = response.body().string();
+			JSONObject token = new JSONObject(resultado);
+			resultado  = token.getString("accessToken");
 		} catch (Exception e) {
 			log.info("Error al obtener token:"+e.getMessage());
 		}
@@ -79,7 +83,7 @@ public class ClientSAF {
 					.url(path+endPointInsertPF)
 					.method("POST", body)
 					.addHeader("Content-Type","application/json")
-					.addHeader("Authorization", "Bearer " + validarToken())
+					.addHeader("Authorization", "Bearer " + token())
 					//.addHeader("Accept","application/json;charset=utf-8")
 					.build();
 			response = client.newCall(request).execute();
@@ -103,7 +107,7 @@ public class ClientSAF {
     	   request = new Request.Builder()
     		   .url(path+ endPointasientosContables+"?codEmpresa="+"001"+"&codAgencia="+"001"+"&fecInicio="+fechaInicio+"&fecFinal="+fechaFin)
     		   .method("GET",null)
-    		   .addHeader("Authorization", "Bearer " + validarToken())
+    		   .addHeader("Authorization", "Bearer " + token())
     		   .build();
     	  response = client.newCall(request).execute();
     	  String resultado = response.body().string();
@@ -114,7 +118,34 @@ public class ClientSAF {
 	  return asientos;
 	}
 	
-	public String validarToken() {
+	public List<SaldoVO>cargaSaldos(){
+		List<SaldoVO>lista = new ArrayList<>();
+		try {
+			 client = new OkHttpClient().newBuilder().build();
+			 mediaType = MediaType.parse("application/json");
+			 body = RequestBody.create(mediaType, "");
+			 request = new Request.Builder()
+			         .url(path+endPointCargaSaldos+"/?codEmpresa=001")
+			         .method("GET", null)
+					 .addHeader("Content-Type", "application/json")
+					 .addHeader("Authorization","Bearer "+ token())
+					 .build();
+			 response = client.newCall(request).execute();
+			 String resultado = response.body().string();
+			 JSONArray jsonArray = new JSONArray(resultado);
+			 for(int i = 0; i< jsonArray.length();i++) {
+				 JSONObject jsonObject = jsonArray.getJSONObject(i);
+				 SaldoVO vo = gson.fromJson(jsonObject.toString(),SaldoVO.class);
+				 lista.add(vo);
+			 }
+		} catch (Exception e) {
+			log.info("Error al cargar saldos :"+e.getMessage());
+		}
+		return lista;
+			
+   }
+	
+	/*public String validarToken() {
 		JSONObject tokenMetodo = new JSONObject();
 		try {
 			if(token.equals("")) {
@@ -125,7 +156,9 @@ public class ClientSAF {
 		   log.info("Error al validar token:"+e.getMessage());	
 		}
 		return token;
-	}
+	}*/
 	
+	
+
 	
 }

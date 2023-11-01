@@ -2,6 +2,7 @@ package com.saf_saicoop.controller;
 
 import java.util.List;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.websocket.server.PathParam;
 
 import org.json.JSONObject;
@@ -12,13 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.saf_saicoop.entity.InsertarPF;
 import com.saf_saicoop.model.AsientoContableVO;
-import com.saf_saicoop.model.InsertPFVO;
+import com.saf_saicoop.model.RequestFolioVo;
 import com.saf_saicoop.service.CapaServiceGeneralImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +59,21 @@ public class apiController {
 	    }
 		
 	}
+	
+	@GetMapping(value ="/cargaSaldos")
+	private ResponseEntity<?> cargaSaldos(){
+	    return new ResponseEntity<>(impl.cargaSaldos(),HttpStatus.OK);	
+	}
+	
+	@PostMapping(value = "cargaAuxiliar",produces = {MediaType.APPLICATION_JSON_VALUE},consumes = {MediaType.APPLICATION_JSON_VALUE})
+	private ResponseEntity<?> cargaFolio(@RequestBody RequestFolioVo folio){
+		
+		return null;
+		
+	}
+		
+	
+
 
 
 }

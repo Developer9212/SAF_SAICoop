@@ -18,6 +18,7 @@
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/util/SpringConfiguration.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/model/VinculacionVO.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/entity/CatalogoMenu.java
+/home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/model/SaldoVO.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/controller/apiController.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/util/FicheroConexion.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/service/ICatalogoMenuService.java
@@ -26,11 +27,13 @@
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/entity/PersonaPK.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/model/InsertPFVO.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/dao/MenuRepository.java
+/home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/model/AmortizacionVO.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/model/Opa.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/service/IPersonaService.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/servicios_externo_SAF/ClientSAF.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/entity/TablaPK.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/model/InfVehiculoVO.java
+/home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/model/MovimientoVo.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/service/ITablaService.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/model/BeneficiarioVO.java
 /home/wilmer/Proyectos_Fenoreste/saf/SAF-SAICoop-main/src/main/java/com/saf_saicoop/service/PersonaServiceImpl.java
