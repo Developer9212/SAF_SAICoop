@@ -13,6 +13,7 @@ import com.saf_saicoop.entity.Tabla;
 import com.saf_saicoop.entity.TablaPK;
 import com.saf_saicoop.model.AsientoContableVO;
 import com.saf_saicoop.model.InsertPFVO;
+import com.saf_saicoop.model.InsertPJVO;
 import com.saf_saicoop.model.SaldoVO;
 import com.saf_saicoop.service.ITablaService;
 
@@ -40,6 +41,7 @@ public class ClientSAF {
 	private String path = "https://factorajeactivo.com:8208";
 	private String endPointToken = "/invoice-discount-api/v1/usuariosweb/autenticacion";
 	private String endPointInsertPF= "/Client-api/v1/personasfisicas";
+	private String endPointInsertPJ= "/Client-api/v1/personasjuridicas";
 	private String endPointasientosContables= "/Accounting-api/v1/asientoscontables";
 	private String endPointCargaSaldos = "/invoice-discount-api/v1/cargasaldos";
 	Gson gson = new Gson();
@@ -95,6 +97,35 @@ public class ClientSAF {
 		}
 		return resultado;
 	}
+	
+	
+	public String insertaPeronsaSAJ(InsertPJVO personaJuridica) {
+		String resultado = "";
+		try {
+			client = new OkHttpClient().newBuilder().build();
+			mediaType = MediaType.parse("application/json");
+			//json.put("correo",tabla_token.getDato1());
+			//json.put("palabraPaso", tabla_token.getDato2());
+			
+			String jsonPeticion = gson.toJson(personaJuridica);
+			body = RequestBody.create(mediaType,jsonPeticion);
+			request = new Request.Builder()
+					.url(path+endPointInsertPJ)
+					.method("POST", body)
+					.addHeader("Content-Type","application/json")
+					.addHeader("Authorization", "Bearer " + token())
+					//.addHeader("Accept","application/json;charset=utf-8")
+					.build();
+			response = client.newCall(request).execute();
+			resultado = response.body().string();
+			System.out.println("Resultado:"+resultado);
+			
+		} catch (Exception e) {
+		  log.info("Error al insertar persona a SAF:"+e.getMessage());
+		}
+		return resultado;
+	}
+	
 	
 	
 	public List<AsientoContableVO> asientosContables(String fechaInicio,String fechaFin) {

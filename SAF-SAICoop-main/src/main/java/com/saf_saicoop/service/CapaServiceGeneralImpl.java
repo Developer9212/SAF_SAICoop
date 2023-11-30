@@ -22,6 +22,7 @@ import com.saf_saicoop.model.AsientoContableVO;
 import com.saf_saicoop.model.DirClienteVO;
 import com.saf_saicoop.model.IdClienteVO;
 import com.saf_saicoop.model.InsertPFVO;
+import com.saf_saicoop.model.InsertPJVO;
 import com.saf_saicoop.model.Ogs;
 import com.saf_saicoop.model.SaldoVO;
 import com.saf_saicoop.servicios_externo_SAF.ClientSAF;
@@ -196,6 +197,134 @@ public class CapaServiceGeneralImpl {
 		return personaFisica;
 		
 	}
+	
+	
+	public InsertarPF InsertaPersonaSAFJ(String ogsPet) {
+		InsertPJVO inserta = new InsertPJVO();
+		
+		//formamos peticion
+		TablaPK tbPk = new TablaPK(idTabla,"empresa");
+		Tabla tablaEmpresa = tablaService.buscarPorId(tbPk);
+		
+		inserta.setCodSector("X");
+		inserta.setClaseSociedad("X");
+		inserta.setCodActividad("X");
+		inserta.setNomComercial(ogsPet);/**/		
+		
+		
+		ogs = herramientasUtil.ogs(ogsPet);
+		PersonaPK pkPersona = new PersonaPK(ogs.getIdorigen(),ogs.getIdgrupo(),ogs.getIdsocio());
+		Persona persona = personaService.buscarPorId(pkPersona);
+		
+		inserta.setRazonSocial(persona.getRfc());
+		inserta.setNacionalidad("1");
+		inserta.setFecConstitucion("");
+		inserta.setTipPropiedad("");
+		inserta.setFolioActaConst("");
+		inserta.setNumNotaria("");
+		inserta.setNumActa("");
+		inserta.setNumEscritura("");
+		inserta.setCodSubactv("");
+	
+		
+		inserta.setNomCliente(persona.getNombre());
+		inserta.setFecIngreso(herramientasUtil.convertFechaDate(persona.getFechaingreso()));
+		inserta.setTelPrincipal(persona.getCelular());
+		inserta.setTelSecundario(persona.getTelefono());
+		inserta.setTelOtro(persona.getTelefonorecados());
+		inserta.setIndRelacion("C");
+		inserta.setNumGrupoFamiliar(0);
+		inserta.setIndGrupoFamiliar("N");
+		inserta.setCodClienteGrupoFam("");
+		inserta.setIndPagaIde("S");
+		inserta.setIndPagaIsr("S");
+		inserta.setIndPagaIva("S");
+		inserta.setIndPagaIdePr("S");
+		inserta.setDesCorreo(persona.getEmail());
+		inserta.setIndEstado("A");
+		inserta.setIndPerfilTransaccional("N");
+		inserta.setCodEjecutivo("SAICOOP");
+		inserta.setNumeroEmpleados(0);
+		inserta.setFechaUltModif(herramientasUtil.convertFechaDate(new Date()));
+		inserta.setActualizado("N");
+		inserta.setIndRelacionInstitucion("N");
+		inserta.setIndClienteRelevante("N");
+		inserta.setIndEmproblemado("N");
+		inserta.setIndConcursoMercantil("N");
+		inserta.setIndOrigenAlta("IM");
+		inserta.setIndClieMyoCredit("N");
+		if(persona.getPk().getIdgrupo().intValue() == 10) {
+			inserta.setCatCliente("1");	
+		}else if(persona.getPk().getIdgrupo().intValue() == 31) {
+			inserta.setCatCliente("14");
+		}		
+		inserta.setCodAgencia("001");
+		inserta.setIndPersona("F");
+		
+		
+		List<DirClienteVO> listaDirCliente = new ArrayList<DirClienteVO>();
+		DirClienteVO voDirCliente = new DirClienteVO();
+		voDirCliente.setCodEmpresa(tablaEmpresa.getDato1());
+		voDirCliente.setCodCliente(ogsPet);
+		voDirCliente.setCodDireccion("1");
+		voDirCliente.setCodPais("00");
+		voDirCliente.setCodProvincia("000");
+		voDirCliente.setCodCanton("00");
+		voDirCliente.setCodDistrito("0000");
+		voDirCliente.setTipDireccion("C");
+		voDirCliente.setDetDireccion(persona.getCalle());
+		voDirCliente.setIndEstado("A");
+		voDirCliente.setDetCalle(persona.getEntrecalles());
+		
+		Colonia colonia = coloniaService.buscarPorId(persona.getIdcolonia());
+		voDirCliente.setCodPostal(String.valueOf(colonia.getCodigopostal()));
+		
+		
+		listaDirCliente.add(voDirCliente);
+		
+		List<IdClienteVO>listaIdClientes = new ArrayList<IdClienteVO>();
+		IdClienteVO voIdCliente = new IdClienteVO();
+		
+		voIdCliente.setCodEmpresa(tablaEmpresa.getDato1());
+		voIdCliente.setCodCliente(ogsPet);
+		
+		
+		voIdCliente.setCodTipoId("CURP");
+		voIdCliente.setNumId(persona.getCurp());
+		voIdCliente.setIndPrincipal("S");
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(persona.getFechaingreso()); // Configuramos la fecha que se recibe
+		calendar.add(Calendar.YEAR,10);
+		
+		System.out.println("Fecha vencimiento:"+calendar.getTime());
+		
+		voIdCliente.setFecVencim(herramientasUtil.convertFechaDate(calendar.getTime())+"T00:00:00.000Z");// "2024-12-10T09:00:00.567Z");
+		listaIdClientes.add(voIdCliente);
+		
+		
+		
+		String res = clientSAF.insertaPeronsaSAJ(inserta);
+		
+		InsertarPF personaFisica = null;
+		if(res.toUpperCase().contains(ogsPet)) {
+			personaFisica = new InsertarPF();
+			personaFisica.setPk(pkPersona);
+			personaFisica.setFecha(new Date());
+			personaFisica.setRespuesta_saf(res);
+			insertaPFService.guardar(personaFisica);
+		}else {
+			personaFisica = new InsertarPF();
+			personaFisica.setPk(pkPersona);
+			personaFisica.setFecha(new Date());
+			personaFisica.setRespuesta_saf("Error al registrar persona juridica :"+res);
+			insertaPFService.guardar(personaFisica);
+		}
+		
+		return personaFisica;
+		
+	}
+	
 	
 	public List<AsientoContableVO>busquedaAsientosContables(String fechaInicio,String fechaFin){
 		log.info("sisidjasidj");

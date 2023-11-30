@@ -47,6 +47,20 @@ public class apiController {
 		return new ResponseEntity<>(personaFisica,HttpStatus.OK);
 	}
 	
+	@GetMapping(value ="personaJuridica/{ogs}")
+	private ResponseEntity<?> InsertPersonaJuridica(@PathVariable String ogs){
+		//ogs = "02010110001001";
+		String ogsValido = "";
+		for(int i=0;i < ogs.length();i++) {
+			if(Character.isDigit(ogs.charAt(i))) {
+				 ogsValido = ogsValido + ogs.charAt(i);
+			}
+		}		
+		InsertarPF personaFisica = impl.InsertaPersonaSAF(ogsValido.trim());
+		
+		return new ResponseEntity<>(personaFisica,HttpStatus.OK);
+	}
+	
 	@GetMapping(value ="/asientosContables",params = {"finicio"})
 	private ResponseEntity<?> asientosContables(@RequestParam(name="finicio") String finicio,
         				                        @RequestParam(name="ffinal") String ffinal){

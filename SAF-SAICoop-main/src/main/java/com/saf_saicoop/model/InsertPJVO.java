@@ -29,24 +29,8 @@ public class InsertPJVO {
 	private String codEmisionTituloDeuda;
 	private String indEntidadGubernamental;
 	
+	private List<ContactoClienteVO>contactoXCliente;
 	
-	private String primerNombre;
-	private String segundoNombre;
-	private String primerApellido;
-	private String segundoApellido;
-	private String estCivil;
-	private String indSexo;
-	private String nomConyugue;
-	
-	private String fecNacimiento;
-	private String actividadEmpresarial;
-	private String codEstadoNac;
-	private String codMunicipioNac;
-	
-	private String codSubactiv;
-	private Integer cantHijos;
-	private Integer aniosAntigDomicilio;
-	private Integer mesAntigDomicilio;
 	private String codEmpresa;
 	private String codCliente;
 	private String catCliente;
@@ -95,17 +79,24 @@ public class InsertPJVO {
 	private String nomApodo;
 	private String extSecundario;
 	private DatoAsociadoVO datoAsociado;
+	
 	private FirmaVO firma;
 	private FotoVO foto;
 	private List<BeneficiarioVO>beneficiarios;
 	private List<ConvenioClienteVO>convenioXClientes;
-	private List<DirClienteVO>dirclientes;
-	private List<EmpleadoClienteVO>empleadosXClientes;
+	private List<DirClienteVO>dirClientes;
+	private List<EmpleadoClienteVO>empleadosXCliente;
 	private List<GrupoClienteVO>grupoXClientes;
-	private List<IdClienteVO>idClientes;
+	private List<GrupoClienteVO>idClientes;
 	private List<InfVehiculoVO>infVehiculos;
 	private List<IngresoEgresoVO>ingresosEgresos;
 	private List<RefComercialVO>refComerciales;
-	private List<RefPersonalVO>refPersonales;
+	private List<RefPersonalVO>refPersonales;	
 	private List<VinculacionVO>vinculaciones;
+	
+	
+	
+	
+	
+	
 }
