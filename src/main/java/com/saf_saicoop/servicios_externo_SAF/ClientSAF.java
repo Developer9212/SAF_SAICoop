@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
@@ -23,6 +24,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 
 @Slf4j
 @Service
@@ -50,37 +58,50 @@ public class ClientSAF {
 		String resultado = "";
 		try {
 			
-			TablaPK tb_pk = new TablaPK("saf","datos_token");
-			Tabla tabla_token = tablaService.buscarPorId(tb_pk);
 			JSONObject json = new JSONObject();
-			client = new OkHttpClient().newBuilder().build();
+			client = new OkHttpClient.Builder()
+	                .connectTimeout(20, java.util.concurrent.TimeUnit.SECONDS) // Tiempo de espera para establecer la conexión
+	                .readTimeout(20, java.util.concurrent.TimeUnit.SECONDS)    // Tiempo de espera para la lectura de datos
+	                .build();
 			mediaType = MediaType.parse("application/json");
-			json.put("correo",tabla_token.getDato2());
-			json.put("palabraPaso", tabla_token.getDato1());
+			
+			TablaPK tbPkToken = new TablaPK("saf","datos_token");
+			Tabla tablaToken = tablaService.buscarPorId(tbPkToken);
+			
+			json.put("correo",tablaToken.getDato2());
+			json.put("palabraPaso", tablaToken.getDato1());
+			System.out.println("Json peticion:"+json.toString());
 			body = RequestBody.create(mediaType,json.toString());
+			String url = path+endPointToken;
+			System.out.println("Url token:"+url);
 			request = new Request.Builder()
-					.url(path+endPointToken)
+					.url(url)
 					.method("POST", body).addHeader("Content-Type", "application/json").build();
 			response = client.newCall(request).execute();
 			resultado = response.body().string();
 			JSONObject token = new JSONObject(resultado);
 			resultado  = token.getString("accessToken");
 		} catch (Exception e) {
-			log.info("Error al obtener token:"+e.getMessage());
+			System.out.println("Error al obtener token "+e.getMessage());
 		}
 		return resultado;
 	}
 	
-	public String insertaPeronsaSAF(InsertPFVO personaFisica) {
+	
+	
+	public String insertaPeronsaSAF(InsertPFVO insertPf) {
 		String resultado = "";
 		try {
-			client = new OkHttpClient().newBuilder().build();
-			mediaType = MediaType.parse("application/json");
-			//json.put("correo",tabla_token.getDato1());
-			//json.put("palabraPaso", tabla_token.getDato2());
+			client = new OkHttpClient.Builder()
+	                .connectTimeout(20, java.util.concurrent.TimeUnit.SECONDS) // Tiempo de espera para establecer la conexión
+	                .readTimeout(20, java.util.concurrent.TimeUnit.SECONDS)    // Tiempo de espera para la lectura de datos
+	                .build();
 			
-			String jsonPeticion = gson.toJson(personaFisica);
-			body = RequestBody.create(mediaType,jsonPeticion);
+			mediaType = MediaType.parse("application/json");
+			;
+			
+			String jsonPeticion = gson.toJson(insertPf);
+			body = RequestBody.create(mediaType, jsonPeticion);
 			request = new Request.Builder()
 					.url(path+endPointInsertPF)
 					.method("POST", body)
@@ -90,24 +111,28 @@ public class ClientSAF {
 					.build();
 			response = client.newCall(request).execute();
 			resultado = response.body().string();
-			System.out.println("Resultado:"+resultado);
+			System.out.println("Resultado Persona Fisica:"+resultado);
 			
 		} catch (Exception e) {
-		  log.info("Error al insertar persona a SAF:"+e.getMessage());
+		  System.out.println("Resultado Persona Juridica");
 		}
 		return resultado;
 	}
 	
 	
-	public String insertaPeronsaSAJ(InsertPJVO personaJuridica) {
+	public String insertaPersonaSAJ(InsertPJVO personaJuridica) {
 		String resultado = "";
 		try {
-			client = new OkHttpClient().newBuilder().build();
+			client = new OkHttpClient.Builder()
+	                .connectTimeout(20, java.util.concurrent.TimeUnit.SECONDS) // Tiempo de espera para establecer la conexión
+	                .readTimeout(20, java.util.concurrent.TimeUnit.SECONDS)    // Tiempo de espera para la lectura de datos
+	                .build();
 			mediaType = MediaType.parse("application/json");
 			//json.put("correo",tabla_token.getDato1());
 			//json.put("palabraPaso", tabla_token.getDato2());
-			
+		 
 			String jsonPeticion = gson.toJson(personaJuridica);
+			log.info("Json peticion persona juridica:"+jsonPeticion);
 			body = RequestBody.create(mediaType,jsonPeticion);
 			request = new Request.Builder()
 					.url(path+endPointInsertPJ)
@@ -118,7 +143,7 @@ public class ClientSAF {
 					.build();
 			response = client.newCall(request).execute();
 			resultado = response.body().string();
-			System.out.println("Resultado:"+resultado);
+			log.info("Resultado Persona Juridica:"+resultado);
 			
 		} catch (Exception e) {
 		  log.info("Error al insertar persona a SAF:"+e.getMessage());
@@ -149,6 +174,8 @@ public class ClientSAF {
 	  return asientos;
 	}
 	
+	
+	
 	public List<SaldoVO>cargaSaldos(){
 		List<SaldoVO>lista = new ArrayList<>();
 		try {
@@ -176,20 +203,7 @@ public class ClientSAF {
 			
    }
 	
-	/*public String validarToken() {
-		JSONObject tokenMetodo = new JSONObject();
-		try {
-			if(token.equals("")) {
-				tokenMetodo = new JSONObject(token());
-				token = tokenMetodo.getString("accessToken");
-			}
-		} catch (Exception e) {
-		   log.info("Error al validar token:"+e.getMessage());	
-		}
-		return token;
-	}*/
-	
-	
+
 
 	
 }

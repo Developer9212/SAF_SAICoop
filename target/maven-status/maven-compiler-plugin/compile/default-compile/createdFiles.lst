@@ -15,7 +15,10 @@ com\saf_saicoop\entity\TablaPK.class
 com\saf_saicoop\model\DirReferenciaVO.class
 com\saf_saicoop\service\InsertaPFServiceImpl.class
 com\saf_saicoop\model\FirmaVO.class
+com\saf_saicoop\service\IInsertaPJServiceImpl.class
+com\saf_saicoop\entity\InsertarPJ.class
 com\saf_saicoop\model\IdClienteVO.class
+com\saf_saicoop\service\IInsertaPJService.class
 com\saf_saicoop\dao\MenuRepository.class
 com\saf_saicoop\dao\TablaRepository.class
 com\saf_saicoop\service\PersonaServiceImpl.class
@@ -23,6 +26,7 @@ com\saf_saicoop\model\PersonaFisicaVO.class
 com\saf_saicoop\servicios_externo_SAF\ClientSAF.class
 com\saf_saicoop\entity\InsertarPF.class
 com\saf_saicoop\model\AsientoContableVO.class
+com\saf_saicoop\dao\InsertarPJRepository.class
 com\saf_saicoop\model\DatoAsociadoVO.class
 com\saf_saicoop\model\RequestFolioVo.class
 com\saf_saicoop\service\IPersonaService.class

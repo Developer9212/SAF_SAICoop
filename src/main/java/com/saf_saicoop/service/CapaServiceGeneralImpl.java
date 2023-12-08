@@ -13,12 +13,17 @@ import org.springframework.stereotype.Service;
 
 import com.saf_saicoop.entity.CatalogoMenu;
 import com.saf_saicoop.entity.Colonia;
+import com.saf_saicoop.entity.Estado;
 import com.saf_saicoop.entity.InsertarPF;
 import com.saf_saicoop.entity.InsertarPJ;
+import com.saf_saicoop.entity.Municipio;
+import com.saf_saicoop.entity.Pais;
 import com.saf_saicoop.entity.Persona;
 import com.saf_saicoop.entity.PersonaPK;
 import com.saf_saicoop.entity.Tabla;
 import com.saf_saicoop.entity.TablaPK;
+import com.saf_saicoop.entity.Trabajo;
+import com.saf_saicoop.entity.VColonia;
 import com.saf_saicoop.model.AsientoContableVO;
 import com.saf_saicoop.model.DirClienteVO;
 import com.saf_saicoop.model.IdClienteVO;
@@ -47,6 +52,16 @@ public class CapaServiceGeneralImpl {
 	private IInsertaPFService insertaPFService;
 	@Autowired
 	private IInsertaPJService insertaPJService;
+	@Autowired
+	private ITrabajoService trabajoService;
+	@Autowired
+	private IMunicipioService municipioService;
+	@Autowired
+	private IEstadoService estadoService;
+	@Autowired
+	private IPaisService paisService;
+	@Autowired
+	private IVColoniaService vColoniaService;
 	
 	
 	
@@ -210,83 +225,137 @@ public class CapaServiceGeneralImpl {
 		TablaPK tbPk = new TablaPK(idTabla,"empresa");
 		Tabla tablaEmpresa = tablaService.buscarPorId(tbPk);
 		
-		inserta.setCodSector("X");
-		inserta.setClaseSociedad("X");
-		inserta.setCodActividad("X");
-		inserta.setNomComercial(ogsPet);/**/		
+		inserta.setCodSector("1");
+		inserta.setClaseSociedad("SACV");
+		inserta.setCodActividad("00000");
+				
 		
 		
 		ogs = herramientasUtil.ogs(ogsPet);
 		PersonaPK pkPersona = new PersonaPK(ogs.getIdorigen(),ogs.getIdgrupo(),ogs.getIdsocio());
 		Persona persona = personaService.buscarPorId(pkPersona);
 		
-		inserta.setRazonSocial(persona.getRfc());
+		inserta.setNomComercial(persona.getRfc());		
+		inserta.setRazonSocial(persona.getRfc());		
 		inserta.setNacionalidad("1");
-		inserta.setFecConstitucion("");
-		inserta.setTipPropiedad("");
-		inserta.setFolioActaConst("");
-		inserta.setNumNotaria("");
-		inserta.setNumActa("");
-		inserta.setNumEscritura("");
-		inserta.setCodSubactv("");
-	
-		
+		inserta.setFecConstitucion(herramientasUtil.convertFechaDate(persona.getFechanacimiento()));
+		inserta.setTipPropiedad("1");
+		inserta.setFolioActaConst("0");		
+		inserta.setNumNotaria("0");
+		inserta.setNumActa("0");
+		inserta.setNumEscritura("0");
+		inserta.setCodSubactv("00000");
+		inserta.setIndOrganDescen("N");
+		inserta.setLei(null);
+		inserta.setCodEmisionTituloDeuda("1");
+		inserta.setIndEntidadGubernamental("N");
+		inserta.setCodEmpresa("001");
+		inserta.setCodCliente(ogsPet);
+		inserta.setCatCliente("1");
 		inserta.setNomCliente(persona.getNombre());
 		inserta.setFecIngreso(herramientasUtil.convertFechaDate(persona.getFechaingreso()));
 		inserta.setTelPrincipal(persona.getCelular());
-		inserta.setTelSecundario(persona.getTelefono());
-		inserta.setTelOtro(persona.getTelefonorecados());
+		Trabajo trabajo = trabajoService.buscarPorId(pkPersona);
+		inserta.setTelSecundario(trabajo.getTelefono());
+		inserta.setTelOtro(persona.getCelular());
 		inserta.setIndRelacion("C");
 		inserta.setNumGrupoFamiliar(0);
-		inserta.setIndGrupoFamiliar("N");
-		inserta.setCodClienteGrupoFam("");
+		inserta.setIndGrupoFamiliar("S");
+		inserta.setCodClienteGrupoFam(ogsPet);
 		inserta.setIndPagaIde("S");
-		inserta.setIndPagaIsr("S");
+		inserta.setIndPagaIva("S");
 		inserta.setIndPagaIva("S");
 		inserta.setIndPagaIdePr("S");
 		inserta.setDesCorreo(persona.getEmail());
+		inserta.setIndGenGrafico(null);
+		inserta.setNomEstado(null);
+		inserta.setCodDireccionEst(null);
+		inserta.setCodAgencia("001");
+		inserta.setCodNivelCuenta(null);
 		inserta.setIndEstado("A");
 		inserta.setIndPerfilTransaccional("N");
-		inserta.setCodEjecutivo("SAICOOP");
+		inserta.setTamanoDeudor(null);
+		inserta.setCodEjecutivo("INTERFACE_WEB");
+		inserta.setPersonalidadJuridica(null);
+		inserta.setFolioConsultaBuro(null);
+		inserta.setCodSectorLaboral(null);
 		inserta.setNumeroEmpleados(0);
-		inserta.setFechaUltModif(herramientasUtil.convertFechaDate(new Date()));
+		inserta.setNombrecnbv(null);
+		inserta.setRelacionAcreditado(0);
+		inserta.setTipoacreditadorelacionado(null);
+		inserta.setFechaUltModif(herramientasUtil.convertFechaDate(persona.getFechaingreso()));
 		inserta.setActualizado("N");
+		inserta.setFiel(null);
 		inserta.setIndRelacionInstitucion("N");
 		inserta.setIndClienteRelevante("N");
+		inserta.setCodAgenciaCnbv(null);
 		inserta.setIndEmproblemado("N");
 		inserta.setIndConcursoMercantil("N");
-		inserta.setIndOrigenAlta("IM");
+		inserta.setIndOrganDescen("N");
 		inserta.setIndClieMyoCredit("N");
-		if(persona.getPk().getIdgrupo().intValue() == 10) {
-			inserta.setCatCliente("1");	
-		}else if(persona.getPk().getIdgrupo().intValue() == 31) {
-			inserta.setCatCliente("14");
-		}		
-		inserta.setCodAgencia("001");
-		inserta.setIndPersona("F");
+		inserta.setNomApodo(null);
+		inserta.setExtSecundario(null);
+		inserta.setIndPersona("J");
+		inserta.setIndOrigenAlta("IM");
 		
+		List<DirClienteVO> listaDirClienteVO = new ArrayList<DirClienteVO>();
+		DirClienteVO dirCliente = new DirClienteVO();
+		inserta.setDirClientes(listaDirClienteVO);
 		
-		List<DirClienteVO> listaDirCliente = new ArrayList<DirClienteVO>();
-		DirClienteVO voDirCliente = new DirClienteVO();
-		voDirCliente.setCodEmpresa(tablaEmpresa.getDato1());
-		voDirCliente.setCodCliente(ogsPet);
-		voDirCliente.setCodDireccion("1");
-		voDirCliente.setCodPais("00");
-		voDirCliente.setCodProvincia("000");
-		voDirCliente.setCodCanton("00");
-		voDirCliente.setCodDistrito("0000");
-		voDirCliente.setTipDireccion("C");
-		voDirCliente.setDetDireccion(persona.getCalle());
-		voDirCliente.setIndEstado("A");
-		voDirCliente.setDetCalle(persona.getEntrecalles());
+		dirCliente.setCodEmpresa("001");
+		dirCliente.setCodCliente(ogsPet);
 		
+		log.info("Vamos a buscar colonia");
 		Colonia colonia = coloniaService.buscarPorId(persona.getIdcolonia());
-		voDirCliente.setCodPostal(String.valueOf(colonia.getCodigopostal()));
+		log.info("Vamos a buscar municipio");
+		Municipio municipio = municipioService.buscarPorId(colonia.getIdmunicipio());
+		log.info("Vamos a buscar estado");
+		Estado estado = estadoService.buscarPorId(municipio.getIdmunicipio());
+		log.info("Vamos a buscar pais:"+estado);
+		Pais pais = paisService.buscarPorId(estado.getIdpais());
+		log.info("Vamos Vamos.....");
+		dirCliente.setCodPais(pais.getIdpais().toString());
+		log.info("1:"+pais.getIdpais()+",idestado:"+estado.getIdestado()+",municipio:"+municipio.getIdmunicipio()+",idcolonia:"+colonia.getIdcolonia());
+		dirCliente.setCodProvincia(municipio.getIdmunicipio().toString());
+		log.info("2");
+		dirCliente.setCodCanton(colonia.getIdcolonia().toString());
+		log.info("3");
+		dirCliente.setCodDistrito(estado.getIdestado().toString());
+		log.info("4");
+		dirCliente.setTipDireccion("C");
+		log.info("5");
+		dirCliente.setApdoPostal(null);
+		dirCliente.setCodDireccion(colonia.getIdcolonia().toString());
+		log.info("Vamos a buscar vcolonia");
+		VColonia vColonia = vColoniaService.buscarPorId(colonia.getIdcolonia());
+		dirCliente.setCodPostal(vColonia.getCodigopostal());
+		dirCliente.setDetDireccion(persona.getCalle()+","+persona.getNumeroext());
+        dirCliente.setIndEstado("A");
+        dirCliente.setNumInterior(persona.getNumeroint());
+        dirCliente.setNumExterior(persona.getNumeroext());
+		dirCliente.setIndClasificacion(null);
+		dirCliente.setIndSubClasificacion(null);
+		dirCliente.setDetCalle("");
+		dirCliente.setNumPiso(null);
+		dirCliente.setTipCasa(null);
 		
+		listaDirClienteVO.add(dirCliente);
+		inserta.setDirClientes(listaDirClienteVO);
 		
-		listaDirCliente.add(voDirCliente);
+		IdClienteVO idClienteVO = new IdClienteVO();
+		List<IdClienteVO> listaIdClienteVO = new ArrayList<>();
+		idClienteVO.setCodEmpresa("001");
+		idClienteVO.setCodCliente(ogsPet);
+		idClienteVO.setCodTipoId("RFC");
+		idClienteVO.setNumId(persona.getRfc());
+		idClienteVO.setFecVencim("2020-01-20");
+		idClienteVO.setIndPrincipal("S");
 		
-		List<IdClienteVO>listaIdClientes = new ArrayList<IdClienteVO>();
+		listaIdClienteVO.add(idClienteVO);
+		inserta.setIdClientes(listaIdClienteVO);
+		//inserta.setIdClientes(listaIdClienteVO);
+		
+		/*List<IdClienteVO>listaIdClientes = new ArrayList<IdClienteVO>();
 		IdClienteVO voIdCliente = new IdClienteVO();
 		
 		voIdCliente.setCodEmpresa(tablaEmpresa.getDato1());
@@ -305,10 +374,10 @@ public class CapaServiceGeneralImpl {
 		
 		voIdCliente.setFecVencim(herramientasUtil.convertFechaDate(calendar.getTime())+"T00:00:00.000Z");// "2024-12-10T09:00:00.567Z");
 		listaIdClientes.add(voIdCliente);
+		*/
 		
 		
-		
-		String res = clientSAF.insertaPeronsaSAJ(inserta);
+		String res = clientSAF.insertaPersonaSAJ(inserta);
 		
 		InsertarPJ personaJuridica = null;
 		if(res.toUpperCase().contains(ogsPet)) {

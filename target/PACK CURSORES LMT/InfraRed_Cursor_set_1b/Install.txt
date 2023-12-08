@@ -1,0 +1,13 @@
+== Infrared v.1.0.b Cursors ==
+
+== How To Install == 
+
+1. Go to folder Start->All Programs->InfraRed Cursor Set.
+2. Right-click on Install.inf and select "Install" from the menu.
+   
+   When install completes:
+
+3.To select the InfraRed cursors go to:
+
+   Start->Control Panel->Mouse->Pointers and select InfraRed from the list 
+4. Click Apply

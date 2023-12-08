@@ -1,0 +1,53 @@
+; Silver_Cursors
+; Win 9x/NT Cursor Scheme installation file.
+
+[Version]
+signature="$CHICAGO$"
+
+[DefaultInstall]
+CopyFiles = Scheme.Cur
+AddReg    = Scheme.Reg
+
+[DestinationDirs]
+Scheme.Cur = 10,"%CUR_DIR%"
+
+[Scheme.Reg]
+HKCU,"Control Panel\Cursors\Schemes","%SCHEME_NAME%",,"%10%\%CUR_DIR%\%pointer%,%10%\%CUR_DIR%\%help%,%10%\%CUR_DIR%\%work%,%10%\%CUR_DIR%\%busy%,%10%\%CUR_DIR%\%Cross%,%10%\%CUR_DIR%\%Text%,%10%\%CUR_DIR%\%Hand%,%10%\%CUR_DIR%\%Unavailiable%,%10%\%CUR_DIR%\%Vert%,%10%\%CUR_DIR%\%Horz%,%10%\%CUR_DIR%\%Dgn1%,%10%\%CUR_DIR%\%Dgn2%,%10%\%CUR_DIR%\%move%,%10%\%CUR_DIR%\%alternate%,%10%\%CUR_DIR%\%link%"
+
+; -- Common Information
+
+[Scheme.Cur]
+App.cur
+Arrow.cur
+Cross.cur
+hand.cur
+pen.cur
+Help.cur
+IBeam.cur
+NO.cur
+SizeAll.cur
+Size1.cur
+Size2.cur
+Size3.cur
+Size4.cur
+al.cur
+Wait.cur
+
+[Strings]
+CUR_DIR     = "Cursors\Silver_Cursors"
+SCHEME_NAME = "Silver_Cursors"
+alternate    = "al.cur"
+busy    = "Wait.cur"
+dgn1    = "Size3.cur"
+dgn2    = "Size4.cur"
+horz    = "Size1.cur"
+vert    = "Size2.cur"
+hand    = "pen.cur"
+help    = "Help.cur"
+link    = "hand.cur"
+move    = "SizeAll.cur"
+pointer    = "Arrow.cur"
+cross    = "Cross.cur"
+text    = "IBeam.cur"
+unavailiable    = "NO.cur"
+work    = "App.cur"

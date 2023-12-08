@@ -1,0 +1,57 @@
+; InfraRed v.1.0.b
+
+[Version]
+signature="$CHICAGO$"
+
+[DefaultInstall]
+CopyFiles = Scheme.Cur, Scheme.Txt
+AddReg    = Scheme.Reg
+
+[DestinationDirs]
+Scheme.Cur = 10,"%CUR_DIR%"
+Scheme.Txt = 10,"%CUR_DIR%"
+
+[Scheme.Reg]
+HKCU,"Control Panel\Cursors\Schemes","%SCHEME_NAME%",,"%10%\%CUR_DIR%\%pointer%,%10%\%CUR_DIR%\%help%,%10%\%CUR_DIR%\%work%,%10%\%CUR_DIR%\%busy%,%10%\%CUR_DIR%\%Cross%,%10%\%CUR_DIR%\%Text%,%10%\%CUR_DIR%\%Hand%,%10%\%CUR_DIR%\%Unavailiable%,%10%\%CUR_DIR%\%Vert%,%10%\%CUR_DIR%\%Horz%,%10%\%CUR_DIR%\%Dgn1%,%10%\%CUR_DIR%\%Dgn2%,%10%\%CUR_DIR%\%move%,%10%\%CUR_DIR%\%alternate%,%10%\%CUR_DIR%\%link%"
+
+; -- Common Information
+
+[Scheme.Cur]
+infraredarro.cur
+infraredhelp.cur
+infraredwork.ani
+infraredbusy.ani
+infraredprecise.cur
+infraredtext.cur
+infraredpen.cur
+infraredno.cur
+infraredwe.cur
+infraredns.cur
+infrarednwse.cur
+infrarednesw.cur
+infraredmove.cur
+infraredalt.cur
+infraredlink.cur
+
+
+
+[Scheme.Txt]
+
+[Strings]
+CUR_DIR     = "Cursors\InfraRed_1b"
+SCHEME_NAME = "InfraRed v.1.0b"
+alternate    = "infraredalt.cur"
+busy    = "infraredbusy.ani"
+dgn1    = "infrarednwse.cur"
+dgn2    = "infrarednesw.cur"
+horz    = "infraredwe.cur"
+vert    = "infraredns.cur"
+hand    = "infraredpen.cur"
+help    = "infraredhelp.cur"
+link    = "infraredlink.cur"
+move    = "infraredmove.cur"
+pointer    = "infraredarro.cur"
+cross    = "infraredprecise.cur"
+text    = "infraredtext.cur"
+unavailiable    = "infraredno.cur"
+work    = "infraredwork.ani"

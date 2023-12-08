@@ -75,12 +75,13 @@ public class apiController {
 		
 	}
 	
+	
 	@GetMapping(value ="/cargaSaldos")
 	private ResponseEntity<?> cargaSaldos(){
 	    return new ResponseEntity<>(impl.cargaSaldos(),HttpStatus.OK);	
 	}
 	
-	@PostMapping(value = "cargaAuxiliar",produces = {MediaType.APPLICATION_JSON_VALUE},consumes = {MediaType.APPLICATION_JSON_VALUE})
+	@PostMapping(value = "/cargaAuxiliar",produces = {MediaType.APPLICATION_JSON_VALUE},consumes = {MediaType.APPLICATION_JSON_VALUE})
 	private ResponseEntity<?> cargaFolio(@RequestBody RequestFolioVo folio){
 		
 		return null;

@@ -87,7 +87,7 @@ public class InsertPJVO {
 	private List<DirClienteVO>dirClientes;
 	private List<EmpleadoClienteVO>empleadosXCliente;
 	private List<GrupoClienteVO>grupoXClientes;
-	private List<GrupoClienteVO>idClientes;
+	private List<IdClienteVO>idClientes;
 	private List<InfVehiculoVO>infVehiculos;
 	private List<IngresoEgresoVO>ingresosEgresos;
 	private List<RefComercialVO>refComerciales;

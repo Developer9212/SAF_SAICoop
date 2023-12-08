@@ -1,0 +1,51 @@
+[Version]
+signature="$CHICAGO$"
+
+[DefaultInstall]
+CopyFiles = Scheme.Cur, Scheme.Txt
+AddReg    = Scheme.Reg
+
+[DestinationDirs]
+Scheme.Cur = 10,"%CUR_DIR%"
+Scheme.Txt = 10,"%CUR_DIR%"
+
+[Scheme.Reg]
+HKCU,"Control Panel\Cursors\Schemes","%SCHEME_NAME%",,"%10%\%CUR_DIR%\%pointer%,%10%\%CUR_DIR%\%help%,%10%\%CUR_DIR%\%work%,%10%\%CUR_DIR%\%busy%,%10%\%CUR_DIR%\%Cross%,%10%\%CUR_DIR%\%Text%,%10%\%CUR_DIR%\%Hand%,%10%\%CUR_DIR%\%Unavailiable%,%10%\%CUR_DIR%\%Vert%,%10%\%CUR_DIR%\%Horz%,%10%\%CUR_DIR%\%Dgn1%,%10%\%CUR_DIR%\%Dgn2%,%10%\%CUR_DIR%\%move%,%10%\%CUR_DIR%\%alternate%,%10%\%CUR_DIR%\%link%"
+
+; -- Common Information
+
+[Scheme.Cur]
+"arrow_down.ani"
+"help.ani"
+"appstarting.ani"
+"wait.ani"
+"cross.ani"
+"ibeam.ani"
+"handwriting.cur"
+"no.ani"
+"sizens.ani"
+"sizewe.ani"
+"sizenwse.ani"
+"sizenesw.ani"
+"sizeall.ani"
+"uparrow.ani"
+"hand.ani"
+
+[Strings]
+CUR_DIR         = "Cursors\ ÷π«£≠B"
+SCHEME_NAME     = " ÷π«£≠B"
+pointer		= "arrow_down.ani"
+help		= "help.ani"
+work		= "appstarting.ani"
+busy		= "wait.ani"
+cross		= "cross.ani"
+text		= "ibeam.ani"
+hand		= "handwriting.cur"
+unavailiable	= "no.ani"
+vert		= "sizens.ani"
+horz		= "sizewe.ani"
+dgn1		= "sizenwse.ani"
+dgn2		= "sizenesw.ani"
+move		= "sizeall.ani"
+alternate	= "uparrow.ani"
+link		= "hand.ani"
