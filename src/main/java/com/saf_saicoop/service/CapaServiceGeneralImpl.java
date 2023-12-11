@@ -310,7 +310,7 @@ public class CapaServiceGeneralImpl {
 		log.info("Vamos a buscar municipio");
 		Municipio municipio = municipioService.buscarPorId(colonia.getIdmunicipio());
 		log.info("Vamos a buscar estado");
-		Estado estado = estadoService.buscarPorId(municipio.getIdmunicipio());
+		Estado estado = estadoService.buscarPorId(municipio.getIdestado());
 		log.info("Vamos a buscar pais:"+estado);
 		Pais pais = paisService.buscarPorId(estado.getIdpais());
 		log.info("Vamos Vamos.....");
@@ -325,7 +325,7 @@ public class CapaServiceGeneralImpl {
 		dirCliente.setTipDireccion("C");
 		log.info("5");
 		dirCliente.setApdoPostal(null);
-		dirCliente.setCodDireccion(colonia.getIdcolonia().toString());
+		dirCliente.setCodDireccion(null);
 		log.info("Vamos a buscar vcolonia");
 		VColonia vColonia = vColoniaService.buscarPorId(colonia.getIdcolonia());
 		dirCliente.setCodPostal(vColonia.getCodigopostal());
