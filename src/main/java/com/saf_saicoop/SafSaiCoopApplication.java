@@ -10,7 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan({"com.saf_saicoop.controller",
 	            "com.saf_saicoop.service",
 	            "com.saf_saicoop.util",
-	            "com.saf_saicoop.servicios_externo_SAF"})
+	            "com.saf_saicoop.servicios_externo_SAF",
+	            "com.saf_saicoop.security"})
 @EntityScan("com.saf_saicoop.entity")
 @EnableJpaRepositories("com.saf_saicoop.dao")
 public class SafSaiCoopApplication {

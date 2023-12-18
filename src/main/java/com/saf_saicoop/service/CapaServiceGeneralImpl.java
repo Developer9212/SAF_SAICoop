@@ -1,12 +1,9 @@
 package com.saf_saicoop.service;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.MenuElement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -219,13 +216,13 @@ public class CapaServiceGeneralImpl {
 	
 	
 	public InsertarPJ InsertaPersonaSAFJ(String ogsPet) {
-		InsertPJVO inserta = new InsertPJVO();
+InsertPJVO inserta = new InsertPJVO();
 		
 		//formamos peticion
 		TablaPK tbPk = new TablaPK(idTabla,"empresa");
 		Tabla tablaEmpresa = tablaService.buscarPorId(tbPk);
 		
-		inserta.setCodSector("1");
+		inserta.setCodSector("16");
 		inserta.setClaseSociedad("SACV");
 		inserta.setCodActividad("00000");
 				
@@ -235,8 +232,8 @@ public class CapaServiceGeneralImpl {
 		PersonaPK pkPersona = new PersonaPK(ogs.getIdorigen(),ogs.getIdgrupo(),ogs.getIdsocio());
 		Persona persona = personaService.buscarPorId(pkPersona);
 		
-		inserta.setNomComercial(persona.getRfc());		
-		inserta.setRazonSocial(persona.getRfc());		
+		inserta.setNomComercial(persona.getNombre());		
+		inserta.setRazonSocial(persona.getNombre());		
 		inserta.setNacionalidad("1");
 		inserta.setFecConstitucion(herramientasUtil.convertFechaDate(persona.getFechanacimiento()));
 		inserta.setTipPropiedad("1");
@@ -281,7 +278,7 @@ public class CapaServiceGeneralImpl {
 		inserta.setCodSectorLaboral(null);
 		inserta.setNumeroEmpleados(0);
 		inserta.setNombrecnbv(null);
-		inserta.setRelacionAcreditado(0);
+		inserta.setRelacionAcreditado(null);
 		inserta.setTipoacreditadorelacionado(null);
 		inserta.setFechaUltModif(herramientasUtil.convertFechaDate(persona.getFechaingreso()));
 		inserta.setActualizado("N");
@@ -309,26 +306,26 @@ public class CapaServiceGeneralImpl {
 		Colonia colonia = coloniaService.buscarPorId(persona.getIdcolonia());
 		log.info("Vamos a buscar municipio");
 		Municipio municipio = municipioService.buscarPorId(colonia.getIdmunicipio());
-		log.info("Vamos a buscar estado");
+		log.info("Vamos a buscar estado:"+municipio.getIdestado());
 		Estado estado = estadoService.buscarPorId(municipio.getIdestado());
 		log.info("Vamos a buscar pais:"+estado);
 		Pais pais = paisService.buscarPorId(estado.getIdpais());
 		log.info("Vamos Vamos.....");
-		dirCliente.setCodPais(pais.getIdpais().toString());
+		dirCliente.setCodPais("26");//pais.getIdpais().toString());
 		log.info("1:"+pais.getIdpais()+",idestado:"+estado.getIdestado()+",municipio:"+municipio.getIdmunicipio()+",idcolonia:"+colonia.getIdcolonia());
-		dirCliente.setCodProvincia(municipio.getIdmunicipio().toString());
+		dirCliente.setCodProvincia("030");//municipio.getIdmunicipio().toString());
 		log.info("2");
-		dirCliente.setCodCanton(colonia.getIdcolonia().toString());
+		dirCliente.setCodCanton("07");//colonia.getIdcolonia().toString());
 		log.info("3");
-		dirCliente.setCodDistrito(estado.getIdestado().toString());
+		dirCliente.setCodDistrito("0001");//estado.getIdestado().toString());
 		log.info("4");
 		dirCliente.setTipDireccion("C");
 		log.info("5");
 		dirCliente.setApdoPostal(null);
-		dirCliente.setCodDireccion(null);
+		dirCliente.setCodDireccion("09");
 		log.info("Vamos a buscar vcolonia");
 		VColonia vColonia = vColoniaService.buscarPorId(colonia.getIdcolonia());
-		dirCliente.setCodPostal(vColonia.getCodigopostal());
+		dirCliente.setCodPostal("83000");//vColonia.getCodigopostal());
 		dirCliente.setDetDireccion(persona.getCalle()+","+persona.getNumeroext());
         dirCliente.setIndEstado("A");
         dirCliente.setNumInterior(persona.getNumeroint());
@@ -346,7 +343,7 @@ public class CapaServiceGeneralImpl {
 		List<IdClienteVO> listaIdClienteVO = new ArrayList<>();
 		idClienteVO.setCodEmpresa("001");
 		idClienteVO.setCodCliente(ogsPet);
-		idClienteVO.setCodTipoId("RFC");
+		idClienteVO.setCodTipoId("REF-M");
 		idClienteVO.setNumId(persona.getRfc());
 		idClienteVO.setFecVencim("2020-01-20");
 		idClienteVO.setIndPrincipal("S");

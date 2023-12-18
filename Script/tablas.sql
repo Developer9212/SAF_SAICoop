@@ -8,3 +8,5 @@ CREATE table respuesta_if_saf(
   respuesta_saf text
 );
 
+DROP TABLE IF EXISTS users;
+CREATE TABLE users(id integer,username varchar(45),password text,create_at date);
